@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Rating from '../components/Rating'
 const defImg= require('../img/def.jpg')
 
 export default function AboutMovie({subMovies}) {
-    const {title} = useParams()
+    const {id} = useParams()
     const [targetMovie, setTargetMovie]= useState(subMovies)
     useEffect(()=>{
-        setTargetMovie(targetMovie.find(movie=> movie.title === title))
+        setTargetMovie(targetMovie.find(movie=> movie.id === +id))
     },[])
     
     
@@ -31,14 +31,11 @@ export default function AboutMovie({subMovies}) {
                 <h5>{targetMovie.genres}</h5>
             </div>
             {targetMovie.trailer ?
-            <a target='blanc' className='btn btn-success mt-4' href={targetMovie.trailer}>Movie trailer</a>:
-            <p className='btn btn-danger'>No movie trailer</p>
+                <a target='blanc' className='btn btn-success mt-4' href={targetMovie.trailer}>Movie trailer</a>:
+                <button className='btn btn-danger' disabled>No movie trailer</button>
             }
             </div>
-    
-    
-    {/* 
-      */}
+            <Link to='/' className='btn btn-outline-primary mt-2 m-auto' style={{width:150}} >Back to Home</Link>
     </div>
   )
 }

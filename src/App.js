@@ -18,7 +18,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home allMovies={allMovies} setAllMovies={setAllMovies} 
                                           subMovies={subMovies} setSubMovies={setSubMovies}/>} />
-          <Route path='/:title' element={<AboutMovie subMovies={subMovies} />} />
+          <Route path='/:id' element={<AboutMovie subMovies={subMovies} />} />
         </Routes>
       </div>
     </div>
