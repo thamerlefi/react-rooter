@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 export default function MovieForm({allMovies,setAllMovies,subMovies,setSubMovies}) {
     const [isShowForm, setIsShowForm] = useState(false)
     const [isInputNotFilled, setIsInputNotFilled] = useState(false)
+    const [ismovieExist,setIsMovieExist] = useState(false)
     const [title, setTitle]= useState('')
     const [desc, setDesc]= useState('')
     const [trailer, setTrailer]= useState('')
@@ -28,6 +29,7 @@ export default function MovieForm({allMovies,setAllMovies,subMovies,setSubMovies
             <input onChange={(e)=> setTitle(e.target.value)} type="text" placeholder='title...' 
                   className={`form-control ${isInputNotFilled && title.trim() === '' ? 'border border-danger' 
                   : null}`}  />
+            {ismovieExist && <p className='text-danger'>this movie is already exist</p>}
         </div>
         {/* ------------------------- description input */}
         <div className="mb-3">
@@ -67,35 +69,39 @@ export default function MovieForm({allMovies,setAllMovies,subMovies,setSubMovies
         </div>
         </div>
         <div>
-           {/* if an input is  Not Filled out a new error message will display*/}
+          {/* if an input is  Not Filled out a new error message will display*/}
           {isInputNotFilled && <p className='alert alert-danger'>Please fill out all required fields !!!</p>}  
         </div>
         {/* -------------------------------------------------------------------add button */}
         <button type="button" className="btn btn-primary" onClick={()=>{
           // check all required fields
           if(!(title.trim() === '' || desc.trim() === '' ||  rating ===0 || genres === '') ){ 
-          setAllMovies([...allMovies,{ //
-            id: allMovies.length + 1,  //
-            title,             //
-            description: desc,
-            trailer,
-            posterURL: pURL,
-            rating ,
-            genres
-          }]) 
-          setTitle('') 
-          setDesc('') 
-          setTrailer('')
-          setRating(0) 
-          setGenres('') 
-          setIsShowForm(false)
-          setIsInputNotFilled(false)}
+            if (allMovies.find(movie => movie.title.toLowerCase()===title.toLowerCase())) setIsMovieExist(true)
+            else{
+                  setAllMovies([...allMovies,{ //
+                    id: allMovies.length + 1,  //
+                    title,             //
+                    description: desc,
+                    trailer,
+                    posterURL: pURL,
+                    rating ,
+                    genres
+                  }]) 
+                  setTitle('') 
+                  setDesc('') 
+                  setTrailer('')
+                  setRating(0) 
+                  setGenres('') 
+                  setIsShowForm(false)
+                  setIsMovieExist(false)
+                  setIsInputNotFilled(false)}}
           else setIsInputNotFilled(true)
         }}>Add</button>
         {/* ---------------------------------------------------------------- cancel button */}
         <button type="button" className="btn btn-light mx-2" onClick={()=>{
           setIsInputNotFilled(false)
           setIsShowForm(false)
+          setIsMovieExist(false)
           setTitle('') 
           setDesc('') 
           setRating(0) 
